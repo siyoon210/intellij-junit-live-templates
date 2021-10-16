@@ -1,0 +1,58 @@
+<templateSet group="JUnit">
+  <template name="test" value="@org.junit.jupiter.api.Test&#10;void $METHOD_NAME$_test() {&#10;    // given&#10;    $END$&#10;    &#10;    // when&#10;    dut.$TEST_METHOD$()&#10;    &#10;    // then &#10;}" description="Create JUnit 5 test method" toReformat="true" toShortenFQNames="true" useStaticImport="true">
+    <variable name="TEST_METHOD" expression="completeSmart()" defaultValue="" alwaysStopAt="true" />
+    <variable name="METHOD_NAME" expression="camelCase(TEST_METHOD)" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_DECLARATION" value="true" />
+    </context>
+  </template>
+  <template name="any" value="org.mockito.ArgumentMatchers.any($TYPE$)" description="Insert any() argument matcher for JUnit" toReformat="true" toShortenFQNames="true" useStaticImport="true">
+    <variable name="TYPE" expression="completeSmart()" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_EXPRESSION" value="true" />
+    </context>
+  </template>
+  <template name="dut" value="@org.mockito.InjectMocks$ANNOTATION$&#10;private $DUT_CLASS$ dut;&#10;$END$" description="Insert dut(Device under test) object" toReformat="true" toShortenFQNames="true" useStaticImport="true">
+    <variable name="DUT_CLASS" expression="substringBefore(className(), &quot;Test)" defaultValue="" alwaysStopAt="true" />
+    <variable name="ANNOTATION" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_DECLARATION" value="true" />
+    </context>
+  </template>
+  <template name="anyLong" value="org.mockito.ArgumentMatchers.anyLong()" description="Insert anyLong() argument matcher for JUnit" toReformat="true" toShortenFQNames="true" useStaticImport="true">
+    <context>
+      <option name="JAVA_EXPRESSION" value="true" />
+    </context>
+  </template>
+  <template name="anyStr" value="org.mockito.ArgumentMatchers.anyString()" description="Insert anyString() argument matcher for JUnit" toReformat="true" toShortenFQNames="true" useStaticImport="true">
+    <context>
+      <option name="JAVA_EXPRESSION" value="true" />
+    </context>
+  </template>
+  <template name="anyList" value="org.mockito.ArgumentMatchers.anyList()" description="Insert anyList() argument matcher for JUnit" toReformat="true" toShortenFQNames="true" useStaticImport="true">
+    <context>
+      <option name="JAVA_EXPRESSION" value="true" />
+    </context>
+  </template>
+  <template name="dependenciesAsMock" value="$DEPENDENCIES$" description="Insert dut(Device under test) Dependencies With @Mock" toReformat="true" toShortenFQNames="true">
+    <variable name="DEPENDENCIES" expression="groovyScript(&quot;import com.intellij.psi.*; import com.intellij.psi.search.*;  try {     PsiClass psiClass = JavaPsiFacade.getInstance(_editor.project).findClass(_1, GlobalSearchScope.allScope(_editor.project));     String dutClassName = psiClass.findFieldByName('dut', false).getType().getCanonicalText();     PsiClass dutClass = JavaPsiFacade.getInstance(_editor.project).findClass(dutClassName, GlobalSearchScope.allScope(_editor.project));     dutClass.getConstructors()[0].getParameterList().getParameters().collect { param -&gt;         '@org.mockito.Mock ' + 'private ' + param.getType().getCanonicalText() + ' ' + param.getName() + ';'     }.join() } catch(Throwable e) { }&quot;, qualifiedClassName())" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_DECLARATION" value="true" />
+      <option name="JAVA_STATEMENT" value="true" />
+    </context>
+  </template>
+  <template name="dependencies" value="$DEPENDENCIES$" description="Insert dut(Device under test) Dependencies" toReformat="true" toShortenFQNames="true">
+    <variable name="DEPENDENCIES" expression="groovyScript(&quot;import com.intellij.psi.*; import com.intellij.psi.search.*;  try {     PsiClass psiClass = JavaPsiFacade.getInstance(_editor.project).findClass(_1, GlobalSearchScope.allScope(_editor.project));     String dutClassName = psiClass.findFieldByName('dut', false).getType().getCanonicalText();     PsiClass dutClass = JavaPsiFacade.getInstance(_editor.project).findClass(dutClassName, GlobalSearchScope.allScope(_editor.project));     dutClass.getConstructors()[0].getParameterList().getParameters().collect { param -&gt;         'private ' + param.getType().getCanonicalText() + ' ' + param.getName() + ';'     }.join() } catch(Throwable e) { }&quot;, qualifiedClassName())" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_DECLARATION" value="true" />
+      <option name="JAVA_STATEMENT" value="true" />
+    </context>
+  </template>
+  <template name="dependenciesAsAutowired" value="$DEPENDENCIES$" description="Insert dut(Device under test) Dependencies With @Autowired" toReformat="true" toShortenFQNames="true">
+    <variable name="DEPENDENCIES" expression="groovyScript(&quot;import com.intellij.psi.*; import com.intellij.psi.search.*;  try {     PsiClass psiClass = JavaPsiFacade.getInstance(_editor.project).findClass(_1, GlobalSearchScope.allScope(_editor.project));     String dutClassName = psiClass.findFieldByName('dut', false).getType().getCanonicalText();     PsiClass dutClass = JavaPsiFacade.getInstance(_editor.project).findClass(dutClassName, GlobalSearchScope.allScope(_editor.project));     dutClass.getConstructors()[0].getParameterList().getParameters().collect { param -&gt;         '@org.springframework.beans.factory.annotation.Autowired ' + 'private ' + param.getType().getCanonicalText() + ' ' + param.getName() + ';'     }.join() } catch(Throwable e) { }&quot;, qualifiedClassName())" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_DECLARATION" value="true" />
+      <option name="JAVA_STATEMENT" value="true" />
+    </context>
+  </template>
+</templateSet>

@@ -1,0 +1,6 @@
+jones.restarteslintaction.restart-eslint-action
+net.ashald.envfile
+net.sjrx.intellij.plugins.systemdunitfiles
+org.jetbrains.plugins.vue
+org.sonarlint.idea
+zielu.gittoolbox

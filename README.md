@@ -1,0 +1,1 @@
+# intellij-junit-live-templates

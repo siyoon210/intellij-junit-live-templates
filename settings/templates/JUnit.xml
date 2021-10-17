@@ -34,25 +34,113 @@
       <option name="JAVA_EXPRESSION" value="true" />
     </context>
   </template>
-  <template name="dependenciesAsMock" value="$DEPENDENCIES$" description="Insert dut(Device under test) Dependencies With @Mock" toReformat="true" toShortenFQNames="true">
+  <template name="dependenciesAsMock" value="$DEPENDENCIES$&#10;$END$" description="Insert dut(Device under test) Dependencies With @Mock" toReformat="true" toShortenFQNames="true">
     <variable name="DEPENDENCIES" expression="groovyScript(&quot;import com.intellij.psi.*; import com.intellij.psi.search.*;  try {     PsiClass psiClass = JavaPsiFacade.getInstance(_editor.project).findClass(_1, GlobalSearchScope.allScope(_editor.project));     String dutClassName = psiClass.findFieldByName('dut', false).getType().getCanonicalText();     PsiClass dutClass = JavaPsiFacade.getInstance(_editor.project).findClass(dutClassName, GlobalSearchScope.allScope(_editor.project));     dutClass.getConstructors()[0].getParameterList().getParameters().collect { param -&gt;         '@org.mockito.Mock ' + 'private ' + param.getType().getCanonicalText() + ' ' + param.getName() + ';'     }.join() } catch(Throwable e) { }&quot;, qualifiedClassName())" defaultValue="" alwaysStopAt="true" />
     <context>
       <option name="JAVA_DECLARATION" value="true" />
-      <option name="JAVA_STATEMENT" value="true" />
     </context>
   </template>
-  <template name="dependencies" value="$DEPENDENCIES$" description="Insert dut(Device under test) Dependencies" toReformat="true" toShortenFQNames="true">
+  <template name="dependencies" value="$DEPENDENCIES$&#10;$END$" description="Insert dut(Device under test) Dependencies" toReformat="true" toShortenFQNames="true">
     <variable name="DEPENDENCIES" expression="groovyScript(&quot;import com.intellij.psi.*; import com.intellij.psi.search.*;  try {     PsiClass psiClass = JavaPsiFacade.getInstance(_editor.project).findClass(_1, GlobalSearchScope.allScope(_editor.project));     String dutClassName = psiClass.findFieldByName('dut', false).getType().getCanonicalText();     PsiClass dutClass = JavaPsiFacade.getInstance(_editor.project).findClass(dutClassName, GlobalSearchScope.allScope(_editor.project));     dutClass.getConstructors()[0].getParameterList().getParameters().collect { param -&gt;         'private ' + param.getType().getCanonicalText() + ' ' + param.getName() + ';'     }.join() } catch(Throwable e) { }&quot;, qualifiedClassName())" defaultValue="" alwaysStopAt="true" />
     <context>
       <option name="JAVA_DECLARATION" value="true" />
-      <option name="JAVA_STATEMENT" value="true" />
     </context>
   </template>
-  <template name="dependenciesAsAutowired" value="$DEPENDENCIES$" description="Insert dut(Device under test) Dependencies With @Autowired" toReformat="true" toShortenFQNames="true">
+  <template name="dependenciesAsAutowired" value="$DEPENDENCIES$&#10;$END$" description="Insert dut(Device under test) Dependencies With @Autowired" toReformat="true" toShortenFQNames="true">
     <variable name="DEPENDENCIES" expression="groovyScript(&quot;import com.intellij.psi.*; import com.intellij.psi.search.*;  try {     PsiClass psiClass = JavaPsiFacade.getInstance(_editor.project).findClass(_1, GlobalSearchScope.allScope(_editor.project));     String dutClassName = psiClass.findFieldByName('dut', false).getType().getCanonicalText();     PsiClass dutClass = JavaPsiFacade.getInstance(_editor.project).findClass(dutClassName, GlobalSearchScope.allScope(_editor.project));     dutClass.getConstructors()[0].getParameterList().getParameters().collect { param -&gt;         '@org.springframework.beans.factory.annotation.Autowired ' + 'private ' + param.getType().getCanonicalText() + ' ' + param.getName() + ';'     }.join() } catch(Throwable e) { }&quot;, qualifiedClassName())" defaultValue="" alwaysStopAt="true" />
     <context>
       <option name="JAVA_DECLARATION" value="true" />
+    </context>
+  </template>
+  <template name="given" value="org.mockito.BDDMockito.given($MOCK$)" description="Insert BDD given() for Mocking" toReformat="true" toShortenFQNames="true" useStaticImport="true">
+    <variable name="MOCK" expression="completion()" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_EXPRESSION" value="true" />
+    </context>
+  </template>
+  <template name="WILLRETURN" value="org.mockito.BDDMockito.given($SELECTION$).willReturn($RETRUN_VALUE$);" description="Surround with given($SELECTION$).willReturn() for Mocking" toReformat="true" toShortenFQNames="true" useStaticImport="true">
+    <variable name="RETRUN_VALUE" expression="completeSmart()" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_CODE" value="true" />
+    </context>
+  </template>
+  <template name="WILLCALLREALMETHOD" value="org.mockito.BDDMockito.given($SELECTION$).willCallRealMethod();&#10;$END$" description="Surround with given($SELECTION$).willCallRealMethod() for Mocking" toReformat="true" toShortenFQNames="true" useStaticImport="true">
+    <context>
+      <option name="JAVA_CODE" value="true" />
+    </context>
+  </template>
+  <template name="WILLTHROW" value="org.mockito.BDDMockito.given($SELECTION$).willThrow($EXCEPTION$);&#10;$END$" description="Surround with given($SELECTION$).willThrow() for Mocking" toReformat="true" toShortenFQNames="true" useStaticImport="true">
+    <variable name="EXCEPTION" expression="completeSmart()" defaultValue="" alwaysStopAt="true" />
+    <context>
       <option name="JAVA_STATEMENT" value="true" />
+    </context>
+  </template>
+  <template name="doNoting" value="org.mockito.BDDMockito.doNothing().when($MOCK$).$METHOD$($END$);" description="Insert BDD doNoting() for Mocking" toReformat="true" toShortenFQNames="true" useStaticImport="true">
+    <variable name="MOCK" expression="completeSmart()" defaultValue="" alwaysStopAt="true" />
+    <variable name="METHOD" expression="completeSmart()" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_EXPRESSION" value="true" />
+    </context>
+  </template>
+  <template name="then" value="org.mockito.BDDMockito.then($MOCK$).should().$METHOD$($END$);" description="Insert BDD then().should()" toReformat="false" toShortenFQNames="true" useStaticImport="true">
+    <variable name="MOCK" expression="completeSmart()" defaultValue="" alwaysStopAt="true" />
+    <variable name="METHOD" expression="completeSmart()" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_EXPRESSION" value="true" />
+    </context>
+  </template>
+  <template name="thenNoInteractions" value="org.mockito.BDDMockito.then($MOCK$).shouldHaveNoInteractions();&#10;$END$" description="Insert BDD then().shouldHaveNoInteractions()" toReformat="false" toShortenFQNames="true" useStaticImport="true">
+    <variable name="MOCK" expression="completeSmart()" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_EXPRESSION" value="true" />
+    </context>
+  </template>
+  <template name="thenNoMoreIntercations" value="org.mockito.BDDMockito.then($MOCK$).shouldHaveNoMoreInteractions();&#10;$END$" description="Insert BDD then().thenNoMoreIntercations()" toReformat="false" toShortenFQNames="true" useStaticImport="true">
+    <variable name="MOCK" expression="completeSmart()" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_EXPRESSION" value="true" />
+    </context>
+  </template>
+  <template name="assertThrows" value="org.junit.jupiter.api.Assertions.assertThrows($CODE$)" description="Insert assertThrows()" toReformat="true" toShortenFQNames="true" useStaticImport="true">
+    <variable name="CODE" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_EXPRESSION" value="true" />
+    </context>
+  </template>
+  <template name="assertThat" value="org.assertj.core.api.Assertions.assertThat($CODE$)" description="Insert assertj assertThat()" toReformat="true" toShortenFQNames="true" useStaticImport="true">
+    <variable name="CODE" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_EXPRESSION" value="true" />
+    </context>
+  </template>
+  <template name="assertDoesNotThrows" value="org.junit.jupiter.api.Assertions.assertDoesNotThrow($CODE$)" description="Insert assertDoesNotThrows()" toReformat="true" toShortenFQNames="true" useStaticImport="true">
+    <variable name="CODE" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_EXPRESSION" value="true" />
+    </context>
+  </template>
+  <template name="extm" value="import org.junit.jupiter.api.extension.ExtendWith;&#10;import org.mockito.junit.jupiter.MockitoExtension;&#10;&#10;@ExtendWith(MockitoExtension.class)" description="Insert @ExtendWith(MockitoExtension.class)" toReformat="true" toShortenFQNames="true">
+    <context>
+      <option name="JAVA_DECLARATION" value="true" />
+    </context>
+  </template>
+  <template name="setup" value="@org.junit.jupiter.api.BeforeEach&#10;void setUp() {&#10;    $END$&#10;}" description="Create JUnit 5 tear down test method" toReformat="true" toShortenFQNames="true" useStaticImport="true">
+    <context>
+      <option name="JAVA_DECLARATION" value="true" />
+    </context>
+  </template>
+  <template name="methodsource" value="@org.junit.jupiter.params.ParameterizedTest&#10;@org.junit.jupiter.params.provider.MethodSource&#10;void $METHOD_NAME$_test($END$) {&#10;    // given&#10;    &#10;    // when&#10;    dut.$TEST_METHOD$()&#10;    &#10;    // then &#10;}&#10;&#10;private static java.util.stream.Stream&lt;org.junit.jupiter.params.provider.Arguments&gt; $SOURCE_METHOD_NAME$_test() {&#10;    return java.util.stream.Stream.of(&#10;            org.junit.jupiter.params.provider.Arguments.of()&#10;    );&#10;}&#10;&#10;" description="Create JUnit 5 test method with @MethodSource" toReformat="true" toShortenFQNames="true">
+    <variable name="TEST_METHOD" expression="completeSmart()" defaultValue="" alwaysStopAt="true" />
+    <variable name="METHOD_NAME" expression="camelCase(TEST_METHOD)" defaultValue="" alwaysStopAt="true" />
+    <variable name="SOURCE_METHOD_NAME" expression="" defaultValue="METHOD_NAME" alwaysStopAt="false" />
+    <context>
+      <option name="JAVA_DECLARATION" value="true" />
+    </context>
+  </template>
+  <template name="dependenciesAsMockBean" value="$DEPENDENCIES$&#10;$END$" description="Insert dut(Device under test) Dependencies With @MockBean" toReformat="true" toShortenFQNames="true">
+    <variable name="DEPENDENCIES" expression="groovyScript(&quot;import com.intellij.psi.*; import com.intellij.psi.search.*;  try {     PsiClass psiClass = JavaPsiFacade.getInstance(_editor.project).findClass(_1, GlobalSearchScope.allScope(_editor.project));     String dutClassName = psiClass.findFieldByName('dut', false).getType().getCanonicalText();     PsiClass dutClass = JavaPsiFacade.getInstance(_editor.project).findClass(dutClassName, GlobalSearchScope.allScope(_editor.project));     dutClass.getConstructors()[0].getParameterList().getParameters().collect { param -&gt;         '@org.springframework.boot.test.mock.mockito.MockBean ' + 'private ' + param.getType().getCanonicalText() + ' ' + param.getName() + ';'     }.join() } catch(Throwable e) { }&quot;, qualifiedClassName())" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_DECLARATION" value="true" />
     </context>
   </template>
 </templateSet>

@@ -143,4 +143,21 @@
       <option name="JAVA_DECLARATION" value="true" />
     </context>
   </template>
+  <template name="mock" value="org.mockito.Mockito.mock($END$.class, org.mockito.Mockito.RETURNS_DEEP_STUBS);" description="Insert Mockito.mock(...)" toReformat="false" toShortenFQNames="true">
+    <context>
+      <option name="JAVA_CODE" value="true" />
+    </context>
+  </template>
+  <template name="when" value="org.mockito.Mockito.when($START$).thenReturn($END$)" description="Insert Mokcito when().thenReturn()" toReformat="false" toShortenFQNames="true" useStaticImport="true">
+    <variable name="START" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_CODE" value="true" />
+    </context>
+  </template>
+  <template name="stepVerifier" value="reactor.test.StepVerifier.create($START$)&#10;                .consumeNextWith(actual -&gt; {&#10;                    $END$&#10;                } )&#10;                .verifyComplete();" description="Insert StepVerifier template" toReformat="false" toShortenFQNames="true">
+    <variable name="START" expression="" defaultValue="" alwaysStopAt="true" />
+    <context>
+      <option name="JAVA_CODE" value="true" />
+    </context>
+  </template>
 </templateSet>
